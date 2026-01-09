@@ -4,12 +4,9 @@ import { supabase } from "../supabaseClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import Home from "./components/Home";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import SavedWords from "./components/SavedWords.jsx";
+import Layout from "./components/Layout.jsx";
 
 
 function App() {
@@ -61,11 +58,13 @@ function App() {
                 <h2>Welcome, {session?.user?.email}</h2>
                 <Router>
                     <Routes>
-                        <Route
-                            exact
-                            path="/"
-                            element={<Home />}
-                        />
+                        <Route path="/" element={<Layout />}>
+
+                            <Route index element={<Home />} />
+
+                            <Route path="savedwords" element={<SavedWords />} />
+
+                        </Route>
                     </Routes>
                 </Router>
                 <button onClick={signOut}>Sign out</button>
