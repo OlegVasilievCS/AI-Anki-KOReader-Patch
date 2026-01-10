@@ -13,6 +13,7 @@ const SavedWords = () => {
             const { data, error } = await supabase
                 .from('anki_saved_words')
                 .select()
+                .eq('email', (await supabase.auth.getSession()).data.session.user.email);
 
             if (error) {
                 setFetchError('Could not fetch the records')
