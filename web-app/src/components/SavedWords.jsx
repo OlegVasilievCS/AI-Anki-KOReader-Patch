@@ -1,14 +1,44 @@
 import {Route, Routes} from "react-router-dom";
 import Layout from "./Layout.jsx";
+import { useEffect, useState } from "react";
+import {supabase} from "../../supabaseClient.js";
 
 
 const SavedWords = () => {
+    const [fetchError, setFetchError] = useState(null)
+    const [data, setData] = useState(null)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data, error } = await supabase
+                .from('anki_saved_words')
+                .select()
+
+            if (error) {
+                setFetchError('Could not fetch the records')
+                setData(null)
+                console.log(error)
+            }
+            if (data) {
+                setData(data)
+                setFetchError(null)
+            }
+        }
+        fetchData()
+
+    }, []);
 
     return (
-        <div>
-            <h1>SavedW</h1>
-
-        </div>
-    )
-};
+       <div>
+           {fetchError && (<p>{fetchError}</p>)}
+           {data && (
+               <div>
+                   {data.map(data => (
+                       <p>{data.word}</p>
+                   ))}
+               </div>
+           )}
+       </div>
+    );
+}
 export default SavedWords

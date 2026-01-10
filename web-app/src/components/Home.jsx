@@ -1,4 +1,7 @@
 import React from "react";
+import {Link, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router";
+import SavedWords from "./SavedWords.jsx";
 
 const Home = () => {
     return (
