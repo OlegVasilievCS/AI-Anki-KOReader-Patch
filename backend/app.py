@@ -1,28 +1,15 @@
-import os
-from flask import Flask
-from supabase import create_client, Client
-from dotenv import load_dotenv
-
-load_dotenv()
+from flask import Flask, request
+from urllib.parse import unquote
 
 app = Flask(__name__)
 
-supabase: Client = create_client(
-    os.environ.get("SUPABASE_URL"),
-    os.environ.get("SUPABASE_PUBLISHABLE_KEY")
-)
+@app.route('/send', methods=['POST'])
+def receive_word():
+    word = request.form.get('word')
+    clean_word = unquote(word)
+    print(f"\n[SUCCESS] Received: {clean_word}")
+    return "OK", 200
 
-@app.route('/')
-def index():
-    response = supabase.table('instruments').select("*").execute()
-    instruments = response.data
-
-    html = '<h1>Instruments</h1><ul>'
-    for instrument in instruments:
-        html += f'<li>{instrument["name"]}</li>'
-    html += '</ul>'
-
-    return html
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
