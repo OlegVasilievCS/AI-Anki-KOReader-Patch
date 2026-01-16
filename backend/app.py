@@ -16,10 +16,13 @@ supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
 
-def insert_sentence_to_supabase(word, sentence):
+def insert_sentence_to_supabase(word, english_sentence, target_language_sentence):
     response = (
         supabase.table("anki_saved_words")
-        .insert({"word": str(word), "email": "voleg239@gmail.com", "sentence": str(sentence)})
+        .insert({"word": str(word),
+                 "email": "voleg239@gmail.com",
+                 "target_language": str(target_language_sentence),
+                 "translation_language": str(english_sentence)})
         .execute()
     )
 
@@ -35,7 +38,7 @@ def gemini_call(clean_word):
     english_sentence, target_language_sentence = parse_gemini_sentence(response.text)
     print(english_sentence)
     print(target_language_sentence)
-    # insert_sentence_to_supabase(clean_word, response.text)
+    insert_sentence_to_supabase(clean_word, english_sentence, target_language_sentence)
     # print(response.text)
 
 def parse_gemini_sentence(text):
