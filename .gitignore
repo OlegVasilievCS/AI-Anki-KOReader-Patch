@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 .env
 .env.local
+test.py
 venv
 node_modules
 dist

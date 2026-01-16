@@ -3,13 +3,25 @@ from urllib.parse import unquote
 from google import genai
 from dotenv import load_dotenv
 import os
+from supabase import create_client, Client
 
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv('GEMINI_KEY')
 
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_PUBLISHABLE_KEY")
+supabase: Client = create_client(url, key)
+
 
 app = Flask(__name__)
+
+def insert_sentence_to_supabase(word, sentence):
+    response = (
+        supabase.table("anki_saved_words")
+        .insert({"word": str(word), "email": "voleg239@gmail.com", "sentence": str(sentence)})
+        .execute()
+    )
 
 def gemini_call(clean_word):
     client = genai.Client(api_key=GEMINI_API_KEY)
@@ -19,6 +31,7 @@ def gemini_call(clean_word):
                                                  f"learn the french language. Do not put anything like **, "
                                                  f"and only return the sentence in French"
     )
+    insert_sentence_to_supabase(clean_word, response.text)
     print(response.text)
 
 @app.route('/send', methods=['POST'])
