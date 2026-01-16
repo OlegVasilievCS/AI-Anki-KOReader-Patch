@@ -2,7 +2,7 @@ from flask import Flask, request
 from urllib.parse import unquote
 from google import genai
 from dotenv import load_dotenv
-import os
+import os, re
 from supabase import create_client, Client
 
 load_dotenv()
@@ -28,11 +28,23 @@ def gemini_call(clean_word):
 
     response = client.models.generate_content(
         model="gemini-3-flash-preview", contents=f"Use {clean_word} to make a sentence in French for someone trying to "
-                                                 f"learn the french language. Do not put anything like **, "
-                                                 f"and only return the sentence in French"
+                                                 f"learn the french language. Also return a translation of the french sentence in English"
+                                                 f"Have the English sentence first between curly-brackets and then the French sentence between"
+                                                 f"curly-brackets."
     )
-    insert_sentence_to_supabase(clean_word, response.text)
-    print(response.text)
+    english_sentence, target_language_sentence = parse_gemini_sentence(response.text)
+    print(english_sentence)
+    print(target_language_sentence)
+    # insert_sentence_to_supabase(clean_word, response.text)
+    # print(response.text)
+
+def parse_gemini_sentence(text):
+    text_array = re.findall('{(.+?)}', text)
+    english_sentence = text_array[0]
+    target_language_sentence = text_array[1]
+    return english_sentence, target_language_sentence
+
+
 
 @app.route('/send', methods=['POST'])
 def receive_word():
