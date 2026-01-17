@@ -39,7 +39,6 @@ def gemini_call(clean_word):
     print(english_sentence)
     print(target_language_sentence)
     insert_sentence_to_supabase(clean_word, english_sentence, target_language_sentence)
-    # print(response.text)
 
 def parse_gemini_sentence(text):
     text_array = re.findall('{(.+?)}', text)

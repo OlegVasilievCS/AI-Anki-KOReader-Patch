@@ -2,6 +2,7 @@ import {Route, Routes} from "react-router-dom";
 import Layout from "./Layout.jsx";
 import { useEffect, useState } from "react";
 import {supabase} from "../../supabaseClient.js";
+import SavedWordCard from "./SavedWordCard.jsx";
 
 
 const SavedWords = () => {
@@ -35,11 +36,14 @@ const SavedWords = () => {
            {data && (
                <div>
                    {data.map(data => (
-                       <p>{data.word}</p>
+                       <p>{data.target_language}<br/>{data.translation_language}<SavedWordCard/></p>
                    ))}
                </div>
            )}
+
+
        </div>
+
     );
 }
 export default SavedWords
