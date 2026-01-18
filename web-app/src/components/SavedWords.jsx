@@ -36,8 +36,10 @@ const SavedWords = () => {
            {data && (
                <div>
                    {data.map(data => (
-                       <p>{data.target_language}<br/>{data.translation_language}<SavedWordCard/></p>
+                       <div>
+                           <SavedWordCard data={{ target_lang: data.target_language, trans_lang: data.translation_language}}/></div>
                    ))}
+                   <br/>
                </div>
            )}
 
