@@ -2,8 +2,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import ButtonX from "./SendToAnkiButton.jsx";
+import SendToAnkiButton from "./SendToAnkiButton.jsx";
 
 
 
@@ -20,7 +22,7 @@ export default function SavedWordCard({ data }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Add Word</Button>
+                <SendToAnkiButton/>
             </CardActions>
 
         </Card>
