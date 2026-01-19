@@ -25,7 +25,17 @@ export default function SendToAnkiButton() {
     }
 
     return (
-        <button onClick={handleClick('createDeck', 6, {deck: 'test1'})}>
+        <button onClick = {() =>{handleClick('addNote', 6, {
+            "note": {
+                    "deckName": "test1",
+                    "modelName": "Basic",
+                    "fields": {
+                        "Front": "front contentSSS",
+                        "Back": "back content"
+                    }
+            }
+            })}}
+        >
             Send To Anki
         </button>
     );
