@@ -9,20 +9,20 @@ import SendToAnkiButton from "./SendToAnkiButton.jsx";
 
 
 
-export default function SavedWordCard({ data }) {
+export default function SavedWordCard({ dataFromDB }) {
     return (
         <Card sx={{ minWidth: 675 }}>
             <CardContent>
                 <Typography gutterBottom sx={{ color: 'blue', fontSize: 18 }}>
-                    {data.trans_lang}
+                    {dataFromDB.trans_lang}
                 </Typography>
                 <Typography gutterBottom sx={{ color: 'green', fontSize: 18 }}>
                     <br />
-                    {data.target_lang}
+                    {dataFromDB.target_lang}
                 </Typography>
             </CardContent>
             <CardActions>
-                <SendToAnkiButton/>
+                <SendToAnkiButton dataFromDB={dataFromDB}/>
             </CardActions>
 
         </Card>

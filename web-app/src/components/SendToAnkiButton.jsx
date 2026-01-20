@@ -1,5 +1,5 @@
 
-export default function SendToAnkiButton() {
+export default function SendToAnkiButton({ dataFromDB }) {
     function handleClick(action, version, params={}) {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -25,13 +25,14 @@ export default function SendToAnkiButton() {
     }
 
     return (
-        <button onClick = {() =>{handleClick('addNote', 6, {
+        <button onClick = {() => { alert(dataFromDB.trans_lang);
+            handleClick('addNote', 6, {
             "note": {
                     "deckName": "test1",
                     "modelName": "Basic",
                     "fields": {
-                        "Front": "front contentSSS",
-                        "Back": "back content"
+                        "Front": dataFromDB.trans_lang,
+                        "Back": dataFromDB.target_lang
                     }
             }
             })}}
