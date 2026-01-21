@@ -1,16 +1,25 @@
-# React + Vite
+📚 KOReader to Anki: Automated Language Learning Flow
+This project creates a seamless bridge between reading on a mobile device / Kindle and building a high-quality Anki deck. With one tap on your e-reader, a word is sent to a backend that generates context, translates it, saves it to a database, and creates an Anki card with high-quality AI audio.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔄 The Workflow
+Selection (KOReader): Highlight a French word in any book on your e-reader.
 
-Currently, two official plugins are available:
+Transmission: A custom Lua patch sends the word and your user email to a Flask backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+AI Generation : Python calls Google Gemini to create a natural French sentence using that word and provides an English translation.
 
-## React Compiler
+Database (Supabase): The word, sentence, and translation are logged for history and multi-device sync.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Anki Integration: The card is pushed to Anki via AnkiConnect.
 
-## Expanding the ESLint configuration
+🛠️ Technology Stack
+Frontend (Embedded): Lua (KOReader Patch)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Backend: Python (Flask)
+
+AI: Google Gemini API
+
+Database: Supabase (PostgreSQL)
+
+Flashcards: Anki + AnkiConnect
+
