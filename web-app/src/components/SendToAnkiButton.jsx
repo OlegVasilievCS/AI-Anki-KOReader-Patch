@@ -1,3 +1,4 @@
+import {supabase} from "../../supabaseClient.js";
 
 export default function SendToAnkiButton({ dataFromDB }) {
     function handleClick(action, version, params={}) {
@@ -23,9 +24,17 @@ export default function SendToAnkiButton({ dataFromDB }) {
             xhr.send(JSON.stringify({action, version, params}));
         });
     }
+    async function turn_card_added_true_on_DB() {
+        const { error } = await supabase
+            .from('anki_saved_words')
+            .update({ added_to_anki: true })
+            .eq('id', dataFromDB.row_id)
+
+    }
 
     return (
-        <button onClick = {() => { alert(dataFromDB.trans_lang);
+        <button onClick = {() => { alert(dataFromDB.row_id);
+            turn_card_added_true_on_DB();
             handleClick('addNote', 6, {
             "note": {
                     "deckName": "test1",
