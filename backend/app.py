@@ -16,17 +16,17 @@ supabase: Client = create_client(url, key)
 
 app = Flask(__name__)
 
-def insert_sentence_to_supabase(word, english_sentence, target_language_sentence):
+def insert_sentence_to_supabase(word, user_email, english_sentence, target_language_sentence):
     response = (
         supabase.table("anki_saved_words")
         .insert({"word": str(word),
-                 "email": "voleg239@gmail.com",
+                 "email": str(user_email),
                  "target_language": str(target_language_sentence),
                  "translation_language": str(english_sentence)})
         .execute()
     )
 
-def gemini_call(clean_word):
+def gemini_call(clean_word, user_email):
     client = genai.Client(api_key=GEMINI_API_KEY)
 
     response = client.models.generate_content(
@@ -38,7 +38,7 @@ def gemini_call(clean_word):
     english_sentence, target_language_sentence = parse_gemini_sentence(response.text)
     print(english_sentence)
     print(target_language_sentence)
-    insert_sentence_to_supabase(clean_word, english_sentence, target_language_sentence)
+    insert_sentence_to_supabase(clean_word, user_email, english_sentence, target_language_sentence)
 
 def parse_gemini_sentence(text):
     text_array = re.findall('{(.+?)}', text)
@@ -51,9 +51,10 @@ def parse_gemini_sentence(text):
 @app.route('/send', methods=['POST'])
 def receive_word():
     word = request.form.get('word')
+    user_email = request.form.get('email')
     clean_word = unquote(word)
-    print(f"\n[SUCCESS] Received: {clean_word}")
-    gemini_call(clean_word)
+    print(f"\n[SUCCESS] Received: {clean_word} from {user_email}")
+    gemini_call(clean_word, user_email)
     return "OK", 200
 
 

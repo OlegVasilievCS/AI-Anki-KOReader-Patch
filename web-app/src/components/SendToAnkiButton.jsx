@@ -41,7 +41,8 @@ export default function SendToAnkiButton({ dataFromDB }) {
                     "modelName": "Basic",
                     "fields": {
                         "Front": dataFromDB.trans_lang,
-                        "Back": dataFromDB.target_lang
+                        "Back": dataFromDB.target_lang,
+                        "Audio": ""
                     }
             }
             })}}

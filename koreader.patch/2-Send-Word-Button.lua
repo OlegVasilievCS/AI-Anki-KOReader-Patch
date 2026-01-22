@@ -6,6 +6,11 @@ local http = require("socket.http")
 local ltn12 = require("ltn12")
 local socket = require("socket")
 local util = require("util")
+local LuaSettings = require("luasettings")
+local DataStorage = require("datastorage")
+
+local settings_path = DataStorage:getSettingsDir() .. "/ai_anki.lua"
+local plugin_settings = LuaSettings:open(settings_path)
 
 local FLASK_URL = "http://192.168.2.39:5000/send"
 
@@ -22,15 +27,27 @@ local function make_custom_buttons(self)
                         return self.selected_text ~= nil
                     end,
                     callback = function()
-                        local raw_text = self.selected_text.text
+                        local DataStorage = require("datastorage")
+                        local LuaSettings = require("luasettings")
+                        local settings_path = DataStorage:getSettingsDir() .. "/ai_anki.lua"
+                        local current_settings = LuaSettings:open(settings_path)
 
+                        local user_email = current_settings:readSetting("user_email") or "not_set@example.com"
+
+                        local raw_text = self.selected_text.text
                         local word = util.cleanupSelectedText(tostring(raw_text))
                         word = word:gsub("^%s*(.-)%s*$", "%1")
 
                         if word ~= "" then
-                            UIManager:show(InfoMessage:new{ text = _("Sending: ") .. word, timeout = 1 })
+                            UIManager:show(InfoMessage:new{
+                                text = _("Sending: ") .. word .. " to " .. user_email,
+                                timeout = 1
+                            })
+
                             pcall(function()
-                                local body = "word=" .. socket.url.escape(word)
+                                local body = "word=" .. socket.url.escape(word) ..
+                                             "&email=" .. socket.url.escape(user_email)
+
                                 http.request{
                                     url = FLASK_URL,
                                     method = "POST",
@@ -42,8 +59,6 @@ local function make_custom_buttons(self)
                                     sink = ltn12.sink.null(),
                                 }
                             end)
-                        else
-                            UIManager:show(InfoMessage:new{ text = _("Error: No text selected"), timeout = 2 })
                         end
                         self:onClose()
                     end,
