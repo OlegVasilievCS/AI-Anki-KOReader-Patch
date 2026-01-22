@@ -12,7 +12,7 @@ local DataStorage = require("datastorage")
 local settings_path = DataStorage:getSettingsDir() .. "/ai_anki.lua"
 local plugin_settings = LuaSettings:open(settings_path)
 
-local FLASK_URL = "http://192.168.2.39:5000/send"
+local FLASK_URL = "https://ai-anki-koreader-patch-production.up.railway.app/send"
 
 local orig_init = ReaderHighlight.init
 
