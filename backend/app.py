@@ -46,7 +46,9 @@ def parse_gemini_sentence(text):
     target_language_sentence = text_array[1]
     return english_sentence, target_language_sentence
 
-
+@app.route('/')
+def home():
+    return "Server is running!", 200
 
 @app.route('/send', methods=['POST'])
 def receive_word():
