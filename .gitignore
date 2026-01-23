@@ -1,27 +1,68 @@
-# Logs
-logs
+# --- General & OS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+*.sw?
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Environment & Secrets ---
+.env
+.env.local
+*.local
+secrets.json
+
+# --- Python (backend/) ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+build/
+dist/
+*.egg-info/
+test.py
+
+# --- Node/React (web-app/) ---
+node_modules/
+jspm_packages/
+.npm/
+.eslintcache
+dist/
+dist-ssr/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-.env
-.env.local
-test.py
-venv
-node_modules
-dist
-dist-ssr
-*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# --- Flutter (flutter_frontend/) ---
+# Flutter/Dart/Pub related
+**/doc/api/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/.pub-cache/
+**/.pub/
+**/build/
+
+# Android related
+**/android/**/gradle-wrapper.jar
+**/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/android/app/google-services.json
+*.jks
+*.keystore
+
+# iOS related
+**/ios/Pods/
+**/ios/.generated/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Runner.app.dSYM.zip
+**/ios/Runner.ipa
