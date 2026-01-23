@@ -8,6 +8,9 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  String _wordToSend = '';
+  String _userEmail = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,24 +18,30 @@ class _LandingPageState extends State<LandingPage> {
           children: [
       TextField(
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Enter a word to add',
+              label: Text('Enter a word to add')
         ),
+        onChanged: (value) {
+          setState(() {
+            _wordToSend = value;
+          });
+        },
       ),
         TextField(
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter your email',
+            label: Text('Enter your email')
           ),
+          onChanged: (value) {
+            setState(() {
+              _userEmail = value;
+            });
+          },
         ),
             TextButton(
                 onPressed: () =>
                 {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LandingPage(),
-                    ),
-                  )
+                  print(_userEmail),
+                  print(_wordToSend)
                 },
                 child: Text("Send")
             )
