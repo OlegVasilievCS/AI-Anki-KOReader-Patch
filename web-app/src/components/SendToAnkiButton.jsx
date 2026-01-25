@@ -20,7 +20,7 @@ export default function SendToAnkiButton({ dataFromDB }) {
                 }
             });
 
-            xhr.open('POST', 'http://127.0.0.1:8765');
+            xhr.open('POST', 'http://192.168.2.39:8765');
             xhr.send(JSON.stringify({action, version, params}));
         });
     }
@@ -33,20 +33,24 @@ export default function SendToAnkiButton({ dataFromDB }) {
     }
 
     return (
-        <button onClick = {() => { alert(dataFromDB.row_id);
-            turn_card_added_true_on_DB();
-            handleClick('addNote', 6, {
-            "note": {
-                    "deckName": "test1",
-                    "modelName": "Basic",
-                    "fields": {
-                        "Front": dataFromDB.trans_lang,
-                        "Back": dataFromDB.target_lang,
-                        "Audio": ""
+        <button onClick={async () => {
+            try {
+                await turn_card_added_true_on_DB();
+                const result = await handleClick('addNote', 6, {
+                    "note": {
+                        "deckName": "test1",
+                        "modelName": "Basic",
+                        "fields": {
+                            "Front": dataFromDB.trans_lang,
+                            "Back": dataFromDB.target_lang,
+                        }
                     }
+                });
+                alert("Success! Card ID: " + result);
+            } catch (err) {
+                alert("Anki Error: " + err);
             }
-            })}}
-        >
+        }}>
             Send To Anki
         </button>
     );
