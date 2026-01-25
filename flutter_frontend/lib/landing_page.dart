@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -10,6 +13,19 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   String _wordToSend = '';
   String _userEmail = '';
+
+  Future<http.Response> sendWordToAPI() {
+    return http.post(
+      Uri.parse('https://anki-backend-733978988444.us-central1.run.app/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'word': _wordToSend,
+         'email': _userEmail,
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +67,11 @@ class _LandingPageState extends State<LandingPage> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () {
+                  if (_wordToSend.isNotEmpty && _userEmail.isNotEmpty){
+                    sendWordToAPI();
+                  } else {
+                    print("Fields are empty");
+                  }
                   print('Email: $_userEmail');
                   print('Word: $_wordToSend');
                 },

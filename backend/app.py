@@ -49,11 +49,11 @@ def insert_sentence_to_supabase(word, user_email, english, target):
         result = supabase.table("anki_saved_words").insert(data_to_insert).execute()
 
         if hasattr(result, 'data') and len(result.data) > 0:
-            print(f"SUCCESS: Saved '{word}' to Supabase. ID: {result.data[0].get('id')}")
+            print(f"✅ SUCCESS: Saved '{word}' to Supabase. ID: {result.data[0].get('id')}")
         else:
-            print("️DB ERROR: Insert sent but no data returned. Check RLS Policies.")
+            print("⚠️ DB ERROR: Insert sent but no data returned. Check RLS Policies.")
     except Exception as e:
-        print(f"SUPABASE ERROR: {e}")
+        print(f"❌ SUPABASE ERROR: {e}")
 
 
 def gemini_call(clean_word, user_email):
@@ -73,11 +73,11 @@ def gemini_call(clean_word, user_email):
 
             if response and response.text:
                 english, french = parse_gemini_sentence(response.text)
-                print(f"AI GENERATED: {french} ({english})")
+                print(f"🤖 AI GENERATED: {french} ({english})")
                 insert_sentence_to_supabase(clean_word, user_email, english, french)
                 return
             else:
-                print("Gemini returned an empty response.")
+                print("❌ Gemini returned an empty response.")
                 break
 
         except Exception as e:
@@ -85,7 +85,7 @@ def gemini_call(clean_word, user_email):
                 print(f"⏳ Quota hit (429). Retry attempt {attempt + 1} in 10s...")
                 time.sleep(20)
             else:
-                print(f"GEMINI ERROR: {e}")
+                print(f"❌ GEMINI ERROR: {e}")
                 break
 
 
@@ -96,14 +96,23 @@ def home():
 
 @app.route('/send', methods=['POST'])
 def receive_word():
-    word = request.form.get('word')
-    user_email = request.form.get('email')
+    # 1. Try to get data from JSON (Flutter)
+    json_data = request.get_json(silent=True)
+
+    if json_data:
+        word = json_data.get('word')
+        user_email = json_data.get('email')
+    else:
+        # 2. Try to get data from Form (Lua / KOReader)
+        word = request.form.get('word')
+        user_email = request.form.get('email')
 
     if not word or not user_email:
+        print(f"❌ REJECTED: Missing data. Word: {word}, Email: {user_email}")
         return "Missing word or email", 400
 
     clean_word = unquote(word)
-    print(f"RECEIVED: {clean_word}. Processing now...")
+    print(f"📥 RECEIVED: {clean_word} from {user_email}. Processing...")
 
     gemini_call(clean_word, user_email)
 
