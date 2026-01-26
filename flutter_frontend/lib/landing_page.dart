@@ -13,6 +13,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   String _wordToSend = '';
   String _userEmail = '';
+  final TextEditingController _controller = new TextEditingController();
+
 
   Future<http.Response> sendWordToAPI() {
     return http.post(
@@ -41,6 +43,7 @@ class _LandingPageState extends State<LandingPage> {
               const SizedBox(height: 32),
 
               TextField(
+                controller: _controller,
                 decoration: const InputDecoration(
                   labelText: 'Enter a word to add',
                   prefixIcon: Icon(Icons.text_fields),
@@ -69,6 +72,7 @@ class _LandingPageState extends State<LandingPage> {
                 onPressed: () {
                   if (_wordToSend.isNotEmpty && _userEmail.isNotEmpty){
                     sendWordToAPI();
+                    _controller.clear();
                   } else {
                     print("Fields are empty");
                   }
