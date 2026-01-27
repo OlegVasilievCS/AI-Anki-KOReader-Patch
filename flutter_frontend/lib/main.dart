@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/services/notification_service.dart';
 
 import 'landing_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final notificationService = NotificationService();
+
+  // initialization of notifications
+  await notificationService.initNotification();
+  await notificationService.requestPermissions();
+
   runApp(const MyApp());
 }
 

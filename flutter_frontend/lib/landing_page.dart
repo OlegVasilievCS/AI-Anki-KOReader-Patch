@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/services/notification_service.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -72,6 +73,11 @@ class _LandingPageState extends State<LandingPage> {
                 onPressed: () {
                   if (_wordToSend.isNotEmpty && _userEmail.isNotEmpty){
                     sendWordToAPI();
+                    NotificationService().showNotification(
+                      title: 'Word Sent',
+                      body: _wordToSend + ' was sent',
+
+                    );
                     _controller.clear();
                   } else {
                     print("Fields are empty");
