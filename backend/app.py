@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import threading
 from flask import Flask, request
 from urllib.parse import unquote
 from google import genai
@@ -33,20 +34,40 @@ def parse_gemini_sentence(text):
         return "Translation unavailable", text
     return text_array[0].strip(), text_array[1].strip()
 
-
-def insert_sentence_to_supabase(word, user_email, english, target):
+def insert_input_word_to_supabase(word):
     supabase = get_supabase_client()
-    if not supabase: return
+    if not supabase:
+        print("❌ Error connecting the Database")
+        return
+    try:
+        data_to_insert = {
+            "word": str(word)
+        }
+        result = supabase.table("anki_saved_words").insert(data_to_insert).execute()
+
+        return result.data[0].get('id')
+
+    except Exception as e:
+        print(f" Supabase Error: {e}")
+
+
+def insert_sentence_to_supabase(insert_word_id, word, user_email, english, target):
+    supabase = get_supabase_client()
+    if not supabase:
+        return
 
     try:
         data_to_insert = {
-            "word": str(word),
             "email": str(user_email),
             "target_language": str(target),
             "translation_language": str(english)
         }
 
-        result = supabase.table("anki_saved_words").insert(data_to_insert).execute()
+        result = (supabase.table("anki_saved_words")
+                  .update(data_to_insert)
+                  .eq("id",insert_word_id)
+                  .execute()
+                  )
 
         if hasattr(result, 'data') and len(result.data) > 0:
             print(f"✅ SUCCESS: Saved '{word}' to Supabase. ID: {result.data[0].get('id')}")
@@ -56,8 +77,8 @@ def insert_sentence_to_supabase(word, user_email, english, target):
         print(f"❌ SUPABASE ERROR: {e}")
 
 
-def gemini_call(clean_word, user_email):
-    MODEL_ID = "gemini-3-flash-preview"
+def gemini_call(insert_word_id, clean_word, user_email):
+    MODEL_ID = "gemini-2.5-flash"
 
     max_retries = 3
     for attempt in range(max_retries):
@@ -74,7 +95,7 @@ def gemini_call(clean_word, user_email):
             if response and response.text:
                 english, french = parse_gemini_sentence(response.text)
                 print(f"🤖 AI GENERATED: {french} ({english})")
-                insert_sentence_to_supabase(clean_word, user_email, english, french)
+                insert_sentence_to_supabase(insert_word_id, clean_word, user_email, english, french)
                 return
             else:
                 print("❌ Gemini returned an empty response.")
@@ -114,11 +135,13 @@ def receive_word():
     clean_word = unquote(word)
     print(f"📥 RECEIVED: {clean_word} from {user_email}. Processing...")
 
-    gemini_call(clean_word, user_email)
+    insert_word_id = insert_input_word_to_supabase(word)
+
+    gemini_call(insert_word_id, clean_word, user_email)
 
     return "OK", 200
 
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=8080)

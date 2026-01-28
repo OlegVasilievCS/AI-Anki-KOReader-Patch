@@ -18,8 +18,11 @@ class _LandingPageState extends State<LandingPage> {
 
 
   Future<http.Response> sendWordToAPI() {
+    const String localUrl = 'http://10.0.2.2:8080/send'; // Local emulator
+    const String localUrlPhone = 'http://192.168.2.39:8080/send'; //Local phone
+    const String prodUrl = 'https://anki-backend-733978988444.us-central1.run.app/send';
     return http.post(
-      Uri.parse('https://anki-backend-733978988444.us-central1.run.app/send'),
+      Uri.parse(localUrlPhone),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
