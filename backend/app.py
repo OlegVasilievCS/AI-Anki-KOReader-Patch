@@ -114,6 +114,15 @@ def gemini_call(insert_word_id, clean_word, user_email):
 def home():
     return "Anki Backend is Active and Healthy!", 200
 
+@app.route('/register-token', methods=['POST'])
+def receve_token():
+    json_data = request.get_json(silent=True)
+
+    user_email = json_data.get('email')
+    fcm = json_data.get('fcm_token')
+    print(fcm)
+    print("FCM:  " + user_email)
+
 
 @app.route('/send', methods=['POST'])
 def receive_word():
@@ -123,16 +132,19 @@ def receive_word():
     if json_data:
         word = json_data.get('word')
         user_email = json_data.get('email')
+        fcm = json_data.get('FCM')
     else:
         # 2. Try to get data from Form (Lua / KOReader)
         word = request.form.get('word')
         user_email = request.form.get('email')
+        fcm = json_data.get('FCM')
 
     if not word or not user_email:
         print(f"❌ REJECTED: Missing data. Word: {word}, Email: {user_email}")
         return "Missing word or email", 400
 
     clean_word = unquote(word)
+    print(fcm)
     print(f"📥 RECEIVED: {clean_word} from {user_email}. Processing...")
 
     insert_word_id = insert_input_word_to_supabase(word)

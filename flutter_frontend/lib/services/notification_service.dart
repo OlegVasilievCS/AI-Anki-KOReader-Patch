@@ -4,11 +4,18 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationService {
   NotificationService._internal();
 
-  static final NotificationService _instance = NotificationService._internal();
+  static final NotificationService instance = NotificationService._internal();
 
-  factory NotificationService() => _instance;
+  factory NotificationService() => instance;
 
   final notificationPlugin = FlutterLocalNotificationsPlugin();
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  Future<void> initialize() async {
+    final token = await messaging.getToken();
+    print('FCM Token: $token');
+  }
 
 
   bool _isInitialized = false;
