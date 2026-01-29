@@ -1,9 +1,18 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
+  NotificationService._internal();
+
+  static final NotificationService _instance = NotificationService._internal();
+
+  factory NotificationService() => _instance;
+
   final notificationPlugin = FlutterLocalNotificationsPlugin();
 
+
   bool _isInitialized = false;
+
   bool get isInitialized => _isInitialized;
 
   Future<void> requestPermissions() async {
@@ -26,6 +35,7 @@ class NotificationService {
 
     await notificationPlugin.initialize(settings: initSettings);
   }
+
   NotificationDetails notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
@@ -36,6 +46,7 @@ class NotificationService {
       priority: Priority.max)
     );
   }
+
   Future<void> showNotification( {
     int id = 0,
     String? title,
