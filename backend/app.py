@@ -7,6 +7,8 @@ from urllib.parse import unquote
 from google import genai
 from dotenv import load_dotenv
 from supabase import create_client
+import firebase_admin
+from firebase_admin import credentials, messaging
 
 load_dotenv()
 
@@ -16,6 +18,27 @@ GEMINI_API_KEY = os.environ.get('GEMINI_KEY')
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
+
+def send_notification():
+    print("Sending FMC Notification")
+
+    cred = credentials.Certificate('firebaseKey.json')
+
+    firebase_admin.initialize_app(cred)
+
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title='New Message',
+            body='Hello User!'
+        ),
+        data={'score': '850', 'time': '2:45'},
+        token="user_token"
+    )
+    messaging.send(message)
+
+    print(cred.get_credential())
+
+send_notification()
 
 def get_supabase_client():
     if not SUPABASE_URL or not SUPABASE_KEY:

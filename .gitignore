@@ -10,6 +10,7 @@ Thumbs.db
 **/lib/firebase_options.dart
 
 # --- Environment & Secrets ---
+**/firebaseKey.json
 .env
 .env.local
 *.local
