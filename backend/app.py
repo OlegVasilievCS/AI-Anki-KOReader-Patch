@@ -18,18 +18,18 @@ GEMINI_API_KEY = os.environ.get('GEMINI_KEY')
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
+cred = credentials.Certificate('firebaseKey.json')
+firebase_admin.initialize_app(cred)
+
+
 
 def send_notification():
     print("Sending FMC Notification")
 
-    cred = credentials.Certificate('firebaseKey.json')
-
-    firebase_admin.initialize_app(cred)
-
     message = messaging.Message(
         notification=messaging.Notification(
             title='New Message',
-            body='Hello User!'
+            body='Hello Anton!'
         ),
         data={'score': '850', 'time': '2:45'},
         token="user_token"
@@ -37,8 +37,6 @@ def send_notification():
     messaging.send(message)
 
     print(cred.get_credential())
-
-send_notification()
 
 def get_supabase_client():
     if not SUPABASE_URL or not SUPABASE_KEY:
@@ -56,6 +54,25 @@ def parse_gemini_sentence(text):
     if len(text_array) < 2:
         return "Translation unavailable", text
     return text_array[0].strip(), text_array[1].strip()
+
+def insert_token_to_supabase(user_email, token):
+    supabase = get_supabase_client()
+    if not supabase:
+        print("❌ Error connecting the Database")
+        return
+    try:
+        data_to_insert = {
+            "email": str(user_email),
+            "fcm_token": str(token)
+
+        }
+        result = supabase.table("user_fcm_tokens").insert(data_to_insert).execute()
+
+
+    except Exception as e:
+        print(f" Supabase Error Adding Token: {e}")
+
+
 
 def insert_input_word_to_supabase(word):
     supabase = get_supabase_client()
@@ -142,9 +159,10 @@ def receve_token():
     json_data = request.get_json(silent=True)
 
     user_email = json_data.get('email')
-    fcm = json_data.get('fcm_token')
-    print(fcm)
-    print("FCM:  " + user_email)
+    token = json_data.get('fcm_token')
+    print(token)
+    print("FCM:  " + token)
+    insert_token_to_supabase(user_email, token)
 
 
 @app.route('/send', methods=['POST'])

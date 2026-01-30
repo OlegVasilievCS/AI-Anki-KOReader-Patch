@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, // Add this line!
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   final notificationService = NotificationService();
@@ -21,7 +21,7 @@ void main() async {
   await notificationService.requestPermissions();
   await notificationService.initialize();
   
-  await Registertokenservice().registerToken('email@email@gmail.coim');
+  await Registertokenservice().registerToken('email@email@gmail.com');
 
 
 
