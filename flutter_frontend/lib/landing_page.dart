@@ -3,6 +3,9 @@ import 'package:flutter_frontend/services/notification_service.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'main.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -15,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
   String _wordToSend = '';
   String _userEmail = '';
   final TextEditingController _controller = new TextEditingController();
+  final String? userEmail = supabase.auth.currentUser?.email;
 
 
   Future<http.Response> sendWordToAPI() async {
@@ -28,8 +32,8 @@ class _LandingPageState extends State<LandingPage> {
       },
       body: jsonEncode(<String, dynamic>{
         'word': _wordToSend,
-         'email': _userEmail,
-        'FCM': NotificationService().messaging.getToken()
+         'email': userEmail.toString(),
+        'FCM': await NotificationService().messaging.getToken()
       }),
     );
   }
@@ -75,7 +79,7 @@ class _LandingPageState extends State<LandingPage> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () {
-                  if (_wordToSend.isNotEmpty && _userEmail.isNotEmpty){
+                  if (_wordToSend.isNotEmpty && userEmail.toString().isNotEmpty){
                     sendWordToAPI();
                     NotificationService().showNotification(
                       title: 'Word Sent',
@@ -86,7 +90,7 @@ class _LandingPageState extends State<LandingPage> {
                   } else {
                     print("Fields are empty");
                   }
-                  print('Email: $_userEmail');
+                  print('Email: $userEmail');
                   print('Word: $_wordToSend');
                 },
                 child: const Text("Send Word", style: TextStyle(fontSize: 18)),

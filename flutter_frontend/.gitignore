@@ -11,6 +11,13 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+.env
+.env*
+config.env
+*.env
+
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
 
 # IntelliJ related
 *.iml
@@ -24,6 +31,7 @@ migrate_working_dir/
 #.vscode/
 
 # Flutter/Dart/Pub related
+lib/firebase_options.dart
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/

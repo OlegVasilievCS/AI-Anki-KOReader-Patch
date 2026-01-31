@@ -1,7 +1,6 @@
 import os
 import re
 import time
-import threading
 from flask import Flask, request
 from urllib.parse import unquote
 from google import genai
@@ -66,7 +65,7 @@ def insert_token_to_supabase(user_email, token):
             "fcm_token": str(token)
 
         }
-        result = supabase.table("user_fcm_tokens").insert(data_to_insert).execute()
+        result = supabase.table("user_fcm_tokens").upsert(data_to_insert).execute()
 
 
     except Exception as e:
@@ -155,7 +154,7 @@ def home():
     return "Anki Backend is Active and Healthy!", 200
 
 @app.route('/register-token', methods=['POST'])
-def receve_token():
+def receive_token():
     json_data = request.get_json(silent=True)
 
     user_email = json_data.get('email')
@@ -164,6 +163,7 @@ def receve_token():
     print("FCM:  " + token)
     insert_token_to_supabase(user_email, token)
 
+    return {"status": "success", "message": "Token registered"}, 200
 
 @app.route('/send', methods=['POST'])
 def receive_word():
