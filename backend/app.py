@@ -117,9 +117,16 @@ def insert_sentence_to_supabase(insert_word_id, word, user_email, english, targe
 
 
 def gemini_call(insert_word_id, clean_word, user_email):
-    MODEL_ID = "gemini-2.5-flash"
+    MODEL_ID = ["gemini-3-pro-preview",
+                "gemini-3-flash-preview",
+                "gemini-2.5-pro",
+                "gemini-2.5-flash",
+                "gemini-2.5-flash-preview-09-2025",
+                "gemini-2.5-flash-lite",
+                "gemini-2.5-flash-lite-preview-09-2025",
+                "gemini-2.5-flash-preview-tts"]
 
-    max_retries = 3
+    max_retries = len(MODEL_ID)
     for attempt in range(max_retries):
         try:
             client = genai.Client(api_key=GEMINI_API_KEY)
@@ -129,11 +136,12 @@ def gemini_call(insert_word_id, clean_word, user_email):
                 f"the French sentence between curly-brackets. Example: {{The cat is red}}{{Le chat est rouge}}"
             )
 
-            response = client.models.generate_content(model=MODEL_ID, contents=prompt)
+            response = client.models.generate_content(model=MODEL_ID[attempt], contents=prompt)
 
             if response and response.text:
                 english, french = parse_gemini_sentence(response.text)
                 print(f"🤖 AI GENERATED: {french} ({english})")
+                print(f"Generated with {MODEL_ID[attempt]}")
                 insert_sentence_to_supabase(insert_word_id, clean_word, user_email, english, french)
                 return
             else:

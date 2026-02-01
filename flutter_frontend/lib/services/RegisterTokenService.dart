@@ -16,7 +16,7 @@ class Registertokenservice {
 
     if (token != null){
       await http.post(
-        Uri.parse(localUrlEmulatorToken),
+        Uri.parse(localUrlPhone),
         body: jsonEncode({'email': email, 'fcm_token': token}),
         headers: {'Content-Type': 'application/json'},
       );

@@ -26,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
     const String localUrlPhone = 'http://192.168.2.39:8080/send'; //Local phone
     const String prodUrl = 'https://anki-backend-733978988444.us-central1.run.app/send';
     return http.post(
-      Uri.parse(localUrlEmulator),
+      Uri.parse(localUrlPhone),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -62,16 +62,16 @@ class _LandingPageState extends State<LandingPage> {
               ),
               const SizedBox(height: 16),
 
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Enter your email',
-                  prefixIcon: Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) => setState(() => _userEmail = value),
-              ),
-              const SizedBox(height: 32),
+              // TextField(
+              //   keyboardType: TextInputType.emailAddress,
+              //   decoration: const InputDecoration(
+              //     labelText: 'Enter your email',
+              //     prefixIcon: Icon(Icons.email_outlined),
+              //     border: OutlineInputBorder(),
+              //   ),
+              //   onChanged: (value) => setState(() => _userEmail = value),
+              // ),
+              // const SizedBox(height: 32),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
