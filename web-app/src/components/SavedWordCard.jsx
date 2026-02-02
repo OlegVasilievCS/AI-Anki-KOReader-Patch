@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import ButtonX from "./SendToAnkiButton.jsx";
 import SendToAnkiButton from "./SendToAnkiButton.jsx";
+import RemoveSentenceButton from "./RemoveSentenceButton.jsx";
 
 
 
@@ -23,6 +24,7 @@ export default function SavedWordCard({ dataFromDB }) {
             </CardContent>
             <CardActions>
                 <SendToAnkiButton dataFromDB={dataFromDB}/>
+                <RemoveSentenceButton/>
             </CardActions>
 
         </Card>
