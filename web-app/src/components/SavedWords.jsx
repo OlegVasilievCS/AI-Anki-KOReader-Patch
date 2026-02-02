@@ -9,12 +9,18 @@ const SavedWords = () => {
     const [fetchError, setFetchError] = useState(null)
     const [data, setData] = useState(null)
 
-    function removeSentence(idToKill) {
+    function removeSentence(idToRemove) {
         if(!data){
             return;
         }
-        setData(data.filter((entries) => entries.id !== idToKill))
+        setData(data.filter((entries) => entries.id !== idToRemove))
 
+    }
+    function addSentence(idToAdd){
+        if(!data) {
+            return;
+        }
+        setData(data.filter((item) => idToAdd !== item.id))
     }
 
     useEffect(() => {
@@ -50,6 +56,7 @@ const SavedWords = () => {
                        <div>
                            <SavedWordCard
                                onRemove={removeSentence}
+                               onAdd={addSentence}
 
                                dataFromDB={{
                                target_lang: item.target_language,

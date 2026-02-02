@@ -1,6 +1,6 @@
 import {supabase} from "../../supabaseClient.js";
 
-export default function SendToAnkiButton({ dataFromDB }) {
+export default function SendToAnkiButton({ dataFromDB, onAdd }) {
     function handleClick(action, version, params={}) {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -30,6 +30,8 @@ export default function SendToAnkiButton({ dataFromDB }) {
             .update({ added_to_anki: true })
             .eq('id', dataFromDB.row_id)
 
+        onAdd(dataFromDB.row_id);
+
     }
 
     return (
@@ -46,7 +48,6 @@ export default function SendToAnkiButton({ dataFromDB }) {
                         }
                     }
                 });
-                alert("Success! Card ID: " + result);
             } catch (err) {
                 alert("Anki Error: " + err);
             }

@@ -10,7 +10,7 @@ import RemoveSentenceButton from "./RemoveSentenceButton.jsx";
 
 
 
-export default function SavedWordCard({ dataFromDB, onRemove }) {
+export default function SavedWordCard({ dataFromDB, onRemove, onAdd }) {
     return (
         <Card sx={{ minWidth: 675 }}>
             <CardContent>
@@ -23,7 +23,10 @@ export default function SavedWordCard({ dataFromDB, onRemove }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <SendToAnkiButton dataFromDB={dataFromDB}/>
+                <SendToAnkiButton
+                    dataFromDB={dataFromDB}
+                    onAdd={onAdd}
+                />
                 <RemoveSentenceButton
                     dataFromDB={dataFromDB}
                     onRemove={onRemove}
