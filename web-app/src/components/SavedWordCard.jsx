@@ -24,7 +24,7 @@ export default function SavedWordCard({ dataFromDB }) {
             </CardContent>
             <CardActions>
                 <SendToAnkiButton dataFromDB={dataFromDB}/>
-                <RemoveSentenceButton/>
+                <RemoveSentenceButton dataFromDB={dataFromDB}/>
             </CardActions>
 
         </Card>
