@@ -9,13 +9,18 @@ const SavedWords = () => {
     const [fetchError, setFetchError] = useState(null)
     const [data, setData] = useState(null)
 
+    function UpdateSavedWordList() {
+
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             const { data, error } = await supabase
                 .from('anki_saved_words')
                 .select()
                 .eq('email', (await supabase.auth.getSession()).data.session.user.email)
-                .eq('added_to_anki', 'False');
+                .eq('added_to_anki', 'False')
+                .eq('remove_sentence', 'False');
 
 
             if (error) {
