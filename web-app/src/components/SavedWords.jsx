@@ -9,7 +9,11 @@ const SavedWords = () => {
     const [fetchError, setFetchError] = useState(null)
     const [data, setData] = useState(null)
 
-    function UpdateSavedWordList() {
+    function removeSentence(idToKill) {
+        if(!data){
+            return;
+        }
+        setData(data.filter((entries) => entries.id !== idToKill))
 
     }
 
@@ -42,12 +46,15 @@ const SavedWords = () => {
            {fetchError && (<p>{fetchError}</p>)}
            {data && (
                <div>
-                   {data.map(data => (
+                   {data.map(item => (
                        <div>
-                           <SavedWordCard dataFromDB={{
-                               target_lang: data.target_language,
-                               trans_lang: data.translation_language,
-                               row_id: data.id
+                           <SavedWordCard
+                               onRemove={removeSentence}
+
+                               dataFromDB={{
+                               target_lang: item.target_language,
+                               trans_lang: item.translation_language,
+                               row_id: item.id
                            }}/></div>
                    ))}
                    <br/>
