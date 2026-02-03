@@ -57,6 +57,7 @@ const SavedWords = () => {
                            <SavedWordCard
                                onRemove={removeSentence}
                                onAdd={addSentence}
+                               onGenerate={removeSentence}
 
                                dataFromDB={{
                                target_lang: item.target_language,

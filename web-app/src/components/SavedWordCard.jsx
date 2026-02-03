@@ -7,10 +7,11 @@ import Typography from '@mui/material/Typography';
 import ButtonX from "./SendToAnkiButton.jsx";
 import SendToAnkiButton from "./SendToAnkiButton.jsx";
 import RemoveSentenceButton from "./RemoveSentenceButton.jsx";
+import GenerateSentenceButton from "./GenerateSentenceButton.jsx";
 
 
 
-export default function SavedWordCard({ dataFromDB, onRemove, onAdd }) {
+export default function SavedWordCard({ dataFromDB, onRemove, onAdd, onGenerate }) {
     return (
         <Card sx={{ minWidth: 675 }}>
             <CardContent>
@@ -30,6 +31,10 @@ export default function SavedWordCard({ dataFromDB, onRemove, onAdd }) {
                 <RemoveSentenceButton
                     dataFromDB={dataFromDB}
                     onRemove={onRemove}
+                />
+                <GenerateSentenceButton
+                    dataFromDB={dataFromDB}
+                    onGenerate={onGenerate}
                 />
             </CardActions>
 
