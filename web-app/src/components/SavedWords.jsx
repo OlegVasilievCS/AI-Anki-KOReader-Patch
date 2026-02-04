@@ -60,6 +60,7 @@ const SavedWords = () => {
                                onGenerate={removeSentence}
 
                                dataFromDB={{
+                               target_word: item.word,
                                target_lang: item.target_language,
                                trans_lang: item.translation_language,
                                row_id: item.id
