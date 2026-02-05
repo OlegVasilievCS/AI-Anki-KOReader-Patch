@@ -1,11 +1,16 @@
 import { GoogleGenAI } from "@google/genai";
 import {buttonClasses} from "@mui/material";
 import {supabase} from "../../supabaseClient.js";
+import {useState} from 'react';
 
 const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
 
+    const [loading, setLoading] = useState(false)
+
 
     async function handleGeneration() {
+        setLoading(true)
+
         const gemeniKey = import.meta.env.VITE_GEMINI_KEY
         const ai = new GoogleGenAI({apiKey:gemeniKey});
         const MODEL_ID = ["gemini-3-pro-preview",
@@ -62,10 +67,14 @@ const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
             })
             .eq('id', dataFromDB.row_id)
 
+        setLoading(false)
+
     }
     return(
-        <button onClick={handleGeneration}>
-            Generate
+        <button
+            disabled={loading}
+            onClick={handleGeneration}>
+            {loading?'Loading':'Generate'}
         </button>
     )
 }
