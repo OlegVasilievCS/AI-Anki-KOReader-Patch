@@ -26,8 +26,6 @@ function App() {
         return () => subscription.unsubscribe();
     }, []);
 
-    console.log(session?.user?.email);
-
     const signOut = async () => {
         const { error } = await supabase.auth.signOut();
     };

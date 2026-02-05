@@ -9,70 +9,89 @@ const SavedWords = () => {
     const [fetchError, setFetchError] = useState(null)
     const [data, setData] = useState(null)
 
-    function removeSentence(idToRemove) {
-        if(!data){
+    function updateItemOnList(id, newSentenceData) {
+        if (!data) {
             return;
         }
-        setData(data.filter((entries) => entries.id !== idToRemove))
-
-    }
-    function addSentence(idToAdd){
-        if(!data) {
-            return;
-        }
-        setData(data.filter((item) => idToAdd !== item.id))
-    }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data, error } = await supabase
-                .from('anki_saved_words')
-                .select()
-                .eq('email', (await supabase.auth.getSession()).data.session.user.email)
-                .eq('added_to_anki', 'False')
-                .eq('remove_sentence', 'False');
-
-
-            if (error) {
-                setFetchError('Could not fetch the records')
-                setData(null)
-                console.log(error)
+        setData(data.map((item) => {
+            if (item.id === id) {
+                return {
+                    ...item,
+                    target_language: newSentenceData.target_lang,
+                    translation_language: newSentenceData.trans_lang
+                };
             }
-            if (data) {
-                setData(data)
-                setFetchError(null)
+            return item;
+        }));
+    }
+
+
+
+        function removeSentence(idToRemove) {
+            if (!data) {
+                return;
             }
+            setData(data.filter((item) => item.id !== idToRemove))
+
         }
-        fetchData()
 
-    }, []);
+        function addSentence(idToAdd) {
+            if (!data) {
+                return;
+            }
+            setData(data.filter((item) => item.id !== idToAdd))
+        }
 
-    return (
-       <div>
-           {fetchError && (<p>{fetchError}</p>)}
-           {data && (
-               <div>
-                   {data.map(item => (
-                       <div>
-                           <SavedWordCard
-                               onRemove={removeSentence}
-                               onAdd={addSentence}
-                               onGenerate={removeSentence}
-
-                               dataFromDB={{
-                               target_word: item.word,
-                               target_lang: item.target_language,
-                               trans_lang: item.translation_language,
-                               row_id: item.id
-                           }}/></div>
-                   ))}
-                   <br/>
-               </div>
-           )}
+        useEffect(() => {
+            const fetchData = async () => {
+                const {data, error} = await supabase
+                    .from('anki_saved_words')
+                    .select()
+                    .eq('email', (await supabase.auth.getSession()).data.session.user.email)
+                    .eq('added_to_anki', 'False')
+                    .eq('remove_sentence', 'False');
 
 
-       </div>
+                if (error) {
+                    setFetchError('Could not fetch the records')
+                    setData(null)
+                    console.log(error)
+                }
+                if (data) {
+                    setData(data)
+                    setFetchError(null)
+                }
+            }
+            fetchData()
 
-    );
-}
+        }, []);
+
+        return (
+            <div>
+                {fetchError && (<p>{fetchError}</p>)}
+                {data && (
+                    <div>
+                        {data.map(item => (
+                            <div>
+                                <SavedWordCard
+                                    onRemove={removeSentence}
+                                    onAdd={addSentence}
+                                    onGenerate={updateItemOnList}
+
+                                    dataFromDB={{
+                                        target_word: item.word,
+                                        target_lang: item.target_language,
+                                        trans_lang: item.translation_language,
+                                        row_id: item.id
+                                    }}/></div>
+                        ))}
+                        <br/>
+                    </div>
+                )}
+
+
+            </div>
+
+        );
+    }
 export default SavedWords

@@ -117,10 +117,10 @@ def insert_sentence_to_supabase(insert_word_id, word, user_email, english, targe
 
 
 def gemini_call(insert_word_id, clean_word, user_email):
-    MODEL_ID = ["gemini-3-pro-preview",
-                "gemini-3-flash-preview",
+    MODEL_ID = ["gemini-3-flash-preview",
                 "gemini-2.5-pro",
                 "gemini-2.5-flash",
+                "gemini-3-pro-preview",
                 "gemini-2.5-flash-preview-09-2025",
                 "gemini-2.5-flash-lite",
                 "gemini-2.5-flash-lite-preview-09-2025",

@@ -13,10 +13,11 @@ const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
 
         const gemeniKey = import.meta.env.VITE_GEMINI_KEY
         const ai = new GoogleGenAI({apiKey:gemeniKey});
-        const MODEL_ID = ["gemini-3-pro-preview",
+        const MODEL_ID = [
             "gemini-3-flash-preview",
             "gemini-2.5-pro",
             "gemini-2.5-flash",
+            "gemini-3-pro-preview",
             "gemini-2.5-flash-preview-09-2025",
             "gemini-2.5-flash-lite",
             "gemini-2.5-flash-lite-preview-09-2025",
@@ -68,6 +69,11 @@ const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
             .eq('id', dataFromDB.row_id)
 
         setLoading(false)
+
+        onGenerate(dataFromDB.row_id, {
+            trans_lang:translation_language,
+            target_lang:target_language
+            })
 
     }
     return(
