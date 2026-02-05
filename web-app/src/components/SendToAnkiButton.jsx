@@ -1,4 +1,5 @@
 import {supabase} from "../../supabaseClient.js";
+import {Button} from "@mui/material";
 
 export default function SendToAnkiButton({ dataFromDB, onAdd }) {
     function handleClick(action, version, params={}) {
@@ -35,7 +36,10 @@ export default function SendToAnkiButton({ dataFromDB, onAdd }) {
     }
 
     return (
-        <button onClick={async () => {
+        <Button
+            variant="contained"
+            size="small"
+            onClick={async () => {
             try {
                 await turn_card_added_true_on_DB();
                 const result = await handleClick('addNote', 6, {
@@ -53,6 +57,6 @@ export default function SendToAnkiButton({ dataFromDB, onAdd }) {
             }
         }}>
             Send To Anki
-        </button>
+        </Button>
     );
 }

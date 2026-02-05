@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import SavedWords from "./components/SavedWords.jsx";
 import Layout from "./components/Layout.jsx";
+import CreateDeckPage from "./pages/CreateDeckPage.jsx";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
                             <Route index element={<Home />} />
 
                             <Route path="savedwords" element={<SavedWords />} />
+                            <Route path="createdeck" element={<CreateDeckPage />} />
 
                         </Route>
                     </Routes>

@@ -9,6 +9,7 @@ const Layout = () => {
                 <li><Link to="/about">About</Link></li>
                 <li><Link to="/contactus">Contact Us</Link></li>
                 <li><Link to="/savedwords">Saved Words</Link></li>
+                <li><Link to="/createdeck">Create New Deck</Link></li>
             </ul>
             <hr/>
             <Outlet />

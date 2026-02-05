@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import {buttonClasses} from "@mui/material";
+import {Button, buttonClasses} from "@mui/material";
 import {supabase} from "../../supabaseClient.js";
 import {useState} from 'react';
 
@@ -34,6 +34,8 @@ const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
                     model: MODEL_ID[i],
                     contents: "Use " + dataFromDB.target_word + " to make a short sentence in French" +
                         " that is different from " + dataFromDB.target_lang + "for a French learner."
+                        + "Make sure that the '" + dataFromDB.target_word + "' is not used in the english sentence"
+                        + " like The balustrade is made of wood. La balustrade est en bois"
                         + "Return the English translation first between curly-brackets and then "
                         + "the French sentence between curly-brackets. Example: {{The cat is red}}{{Le chat est rouge}}",
                 });
@@ -77,11 +79,13 @@ const GenerateSentenceButton = ({ dataFromDB, onGenerate}) => {
 
     }
     return(
-        <button
+        <Button
+            variant="contained"
+            size="small"
             disabled={loading}
             onClick={handleGeneration}>
-            {loading?'Loading':'Generate'}
-        </button>
+            {loading?'Loading':'Generate New Sentence'}
+        </Button>
     )
 }
 export default GenerateSentenceButton

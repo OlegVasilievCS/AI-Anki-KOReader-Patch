@@ -1,4 +1,5 @@
 import {supabase} from "../../supabaseClient.js";
+import {Button} from "@mui/material";
 
 
 const RemoveSentenceButton =  ({dataFromDB, onRemove}) => {
@@ -13,9 +14,12 @@ const RemoveSentenceButton =  ({dataFromDB, onRemove}) => {
     }
 
     return (
-        <button onClick={ RemoveSentence }>
+        <Button
+            variant="contained"
+            size="small"
+            onClick={ RemoveSentence }>
             Remove Sentence
-        </button>
+        </Button>
     )
 
 }
