@@ -2,6 +2,7 @@ import {Button} from "@mui/material";
 import {useEffect, useState} from "react";
 import {supabase} from "../../supabaseClient.js";
 import Deck from "../components/Deck.jsx";
+import RemoveDeckButton from "../components/RemoveDeckButton.jsx";
 
 const CreateDeckPage = () => {
     const [deckName, setDeckName] = useState('')
@@ -66,10 +67,18 @@ const CreateDeckPage = () => {
                     data.map((item) => (
                         <div>
                             <Deck dataFromDB={{
+                                deckId: item.id,
                                 deckName: item.deck_name
-                            }}/></div>
+                            }}/>
+                            <RemoveDeckButton dataFromDB={{
+                                deckId: item.id,
+                                deckName: item.deck_name
+
+                            }}/>
+                        </div>
                     ))}
                 <br/>
+
 
             </div>
         </div>
