@@ -25,8 +25,6 @@ const SavedWords = () => {
         }));
     }
 
-
-
         function removeSentence(idToRemove) {
             if (!data) {
                 return;
@@ -60,6 +58,7 @@ const SavedWords = () => {
                 if (data) {
                     setData(data)
                     setFetchError(null)
+                    console.log(data)
                 }
             }
             fetchData()
