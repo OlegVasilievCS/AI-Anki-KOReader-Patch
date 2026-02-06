@@ -45,16 +45,27 @@ const CreateDeckPage = () => {
     }
 
 
-    async function addDeck(){
-        const userEmail = await (await supabase.auth.getSession()).data.session.user.email
-        const{error} = await supabase
+    async function addDeck() {
+        const { data: { session } } = await supabase.auth.getSession();
+        const userEmail = session.user.email;
+
+        const { data: newDecks, error } = await supabase
             .from('user_decks')
             .insert({
                 deck_name: deckName,
                 email: userEmail
             })
+            .select();
 
+        if (error) {
+            console.error("Error adding deck:", error);
+            return;
+        }
 
+        if (newDecks) {
+            setData([...data, ...newDecks]);
+            setDeckName('');
+        }
     }
 
     return(
