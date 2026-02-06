@@ -16,6 +16,7 @@ const CreateDeckPage = () => {
                 .from('user_decks')
                 .select()
                 .eq('email', (await supabase.auth.getSession()).data.session.user.email)
+                .eq('deck_removed', false)
 
 
             if (error) {
@@ -35,6 +36,13 @@ const CreateDeckPage = () => {
     const handleChange = (event) => {
         setDeckName(event.target.value);
     };
+
+    function updateList(deckId){
+        if(!data){
+            return
+        }
+        setData(data.filter((item) => item.id !== deckId))
+    }
 
 
     async function addDeck(){
@@ -70,7 +78,10 @@ const CreateDeckPage = () => {
                                 deckId: item.id,
                                 deckName: item.deck_name
                             }}/>
-                            <RemoveDeckButton dataFromDB={{
+                            <RemoveDeckButton
+                                onUpdate = {updateList}
+
+                                dataFromDB={{
                                 deckId: item.id,
                                 deckName: item.deck_name
 
