@@ -41,19 +41,23 @@ const SelectDeckDropDown = () => {
     }
 
     return(
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-            <InputLabel id="label-id">Deck Name</InputLabel>
-            <Select
-                labelId="label-id"
-                value={deck}
-                label="Deck Name"
-                onChange={handleChange}
-            >
-                {data.map((item) => <MenuItem value={item.deck_name}>{item.deck_name}</MenuItem>)}
+        <div>
+        {data && (
+    <FormControl sx={{m: 1, minWidth: 200}}>
+        <InputLabel id="label-id">Deck Name</InputLabel>
+        <Select
+            labelId="label-id"
+            value={deck}
+            label="Deck Name"
+            onChange={handleChange}
+        >
+            {data.map((item) => <MenuItem value={item.deck_name}>{item.deck_name}</MenuItem>)}
 
 
-            </Select>
-        </FormControl>
+        </Select>
+    </FormControl>
+        )
+        }</div>
     )
 }
 export default SelectDeckDropDown
