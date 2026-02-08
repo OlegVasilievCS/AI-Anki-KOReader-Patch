@@ -49,7 +49,8 @@ const SelectDeckDropDown = () => {
                 label="Deck Name"
                 onChange={handleChange}
             >
-                <MenuItem value="New">New</MenuItem>
+                {data.map((item) => <MenuItem value={item.deck_name}>{item.deck_name}</MenuItem>)}
+
 
             </Select>
         </FormControl>
