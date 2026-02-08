@@ -58,7 +58,7 @@ const SavedWords = () => {
                 if (data) {
                     setData(data)
                     setFetchError(null)
-                    console.log(data)
+                    // console.log(data)
                 }
             }
             fetchData()

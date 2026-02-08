@@ -6,3 +6,4 @@ const testApp = () => {
     )
 }
 
+export default testApp
