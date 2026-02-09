@@ -26,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
     const String localUrlPhone = 'http://192.168.2.39:8080/send'; //Local phone
     const String prodUrl = 'https://anki-backend-733978988444.us-central1.run.app/send';
     return http.post(
-      Uri.parse(localUrlPhone),
+      Uri.parse(prodUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

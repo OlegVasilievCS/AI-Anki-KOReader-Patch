@@ -17,25 +17,25 @@ GEMINI_API_KEY = os.environ.get('GEMINI_KEY')
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
-cred = credentials.Certificate('firebaseKey.json')
-firebase_admin.initialize_app(cred)
-
-
-
-def send_notification():
-    print("Sending FMC Notification")
-
-    message = messaging.Message(
-        notification=messaging.Notification(
-            title='New Message',
-            body='Hello Anton!'
-        ),
-        data={'score': '850', 'time': '2:45'},
-        token="user_token"
-    )
-    messaging.send(message)
-
-    print(cred.get_credential())
+# cred = credentials.Certificate('firebaseKey.json')
+# firebase_admin.initialize_app(cred)
+#
+#
+#
+# def send_notification():
+#     print("Sending FMC Notification")
+#
+#     message = messaging.Message(
+#         notification=messaging.Notification(
+#             title='New Message',
+#             body='Hello Anton!'
+#         ),
+#         data={'score': '850', 'time': '2:45'},
+#         token="user_token"
+#     )
+#     messaging.send(message)
+#
+#     print(cred.get_credential())
 
 def get_supabase_client():
     if not SUPABASE_URL or not SUPABASE_KEY:

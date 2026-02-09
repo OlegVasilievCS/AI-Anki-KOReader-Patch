@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import SavedWords from "./components/SavedWords.jsx";
 import Layout from "./components/Layout.jsx";
 import CreateDeckPage from "./pages/CreateDeckPage.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
 
                             <Route path="savedwords" element={<SavedWords />} />
                             <Route path="createdeck" element={<CreateDeckPage />} />
+                            <Route path="contactus" element={<ContactUs />} />
 
                         </Route>
                     </Routes>
