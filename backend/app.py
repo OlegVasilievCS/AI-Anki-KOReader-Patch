@@ -149,7 +149,7 @@ def gemini_call(insert_word_id, clean_word, user_email):
                 break
 
         except Exception as e:
-            if "429" in str(e):
+            if "429" or "503" in str(e):
                 print(f"⏳ Quota hit (429). Retry attempt {attempt + 1} in 10s...")
                 time.sleep(20)
             else:

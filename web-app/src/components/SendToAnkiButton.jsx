@@ -1,7 +1,7 @@
 import {supabase} from "../../supabaseClient.js";
 import {Button} from "@mui/material";
 
-export default function SendToAnkiButton({ dataFromDB, onAdd }) {
+export default function SendToAnkiButton({ dataFromDB, onAdd, deckValue }) {
     function handleClick(action, version, params={}) {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -33,6 +33,7 @@ export default function SendToAnkiButton({ dataFromDB, onAdd }) {
 
         onAdd(dataFromDB.row_id);
 
+
     }
 
     return (
@@ -41,10 +42,11 @@ export default function SendToAnkiButton({ dataFromDB, onAdd }) {
             size="small"
             onClick={async () => {
             try {
+                console.log({deckValue})
                 await turn_card_added_true_on_DB();
                 const result = await handleClick('addNote', 6, {
                     "note": {
-                        "deckName": "test1",
+                        "deckName": deckValue,
                         "modelName": "Basic",
                         "fields": {
                             "Front": dataFromDB.trans_lang,

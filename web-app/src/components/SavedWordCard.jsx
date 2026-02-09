@@ -8,7 +8,6 @@ import ButtonX from "./SendToAnkiButton.jsx";
 import SendToAnkiButton from "./SendToAnkiButton.jsx";
 import RemoveSentenceButton from "./RemoveSentenceButton.jsx";
 import GenerateSentenceButton from "./GenerateSentenceButton.jsx";
-import TestApp from "../test/TestApp.jsx";
 import SelectDeckDropDown from "./SelectDeckDropDown.jsx";
 
 
@@ -29,6 +28,7 @@ export default function SavedWordCard({ dataFromDB, onRemove, onAdd, onGenerate,
                 <SendToAnkiButton
                     dataFromDB={dataFromDB}
                     onAdd={onAdd}
+                    deckValue={deckValue}
                 />
                 <RemoveSentenceButton
                     dataFromDB={dataFromDB}
