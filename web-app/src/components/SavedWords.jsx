@@ -9,6 +9,8 @@ const SavedWords = () => {
     const [fetchError, setFetchError] = useState(null)
     const [data, setData] = useState(null)
 
+    const[deckDropDown, setDeckDropDown] = useState('')
+
     function updateItemOnList(id, newSentenceData) {
         if (!data) {
             return;
@@ -76,6 +78,9 @@ const SavedWords = () => {
                                     onRemove={removeSentence}
                                     onAdd={addSentence}
                                     onGenerate={updateItemOnList}
+                                    deckValue={deckDropDown}
+                                    onDropDownChange={setDeckDropDown}
+
 
                                     dataFromDB={{
                                         target_word: item.word,

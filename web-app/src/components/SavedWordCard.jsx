@@ -8,12 +8,12 @@ import ButtonX from "./SendToAnkiButton.jsx";
 import SendToAnkiButton from "./SendToAnkiButton.jsx";
 import RemoveSentenceButton from "./RemoveSentenceButton.jsx";
 import GenerateSentenceButton from "./GenerateSentenceButton.jsx";
-import TestApp from "../testApp.jsx";
+import TestApp from "../test/TestApp.jsx";
 import SelectDeckDropDown from "./SelectDeckDropDown.jsx";
 
 
 
-export default function SavedWordCard({ dataFromDB, onRemove, onAdd, onGenerate }) {
+export default function SavedWordCard({ dataFromDB, onRemove, onAdd, onGenerate, deckValue, onDropDownChange }) {
     return (
         <Card sx={{ minWidth: 675 }}>
             <CardContent>
@@ -38,7 +38,10 @@ export default function SavedWordCard({ dataFromDB, onRemove, onAdd, onGenerate 
                     dataFromDB={dataFromDB}
                     onGenerate={onGenerate}
                 />
-                <SelectDeckDropDown/>
+                <SelectDeckDropDown
+                    deckValue={deckValue}
+                    onDropDownChange={onDropDownChange}
+                />
             </CardActions>
 
         </Card>

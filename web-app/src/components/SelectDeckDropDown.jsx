@@ -4,10 +4,11 @@ import {supabase} from "../../supabaseClient.js";
 import {embertest} from "globals";
 
 
-const SelectDeckDropDown = () => {
+const SelectDeckDropDown = ({deckValue, onDropDownChange}) => {
     const[deck, setDeck] = useState('')
     const [data, setData] = useState(null)
     const [fetchError, setFetchError] = useState('')
+
 
 
     useEffect( () => {
@@ -38,6 +39,8 @@ const SelectDeckDropDown = () => {
 
     const handleChange = (event) => {
         setDeck(event.target.value)
+        onDropDownChange(event.target.value)
+
     }
 
     return(
@@ -47,7 +50,7 @@ const SelectDeckDropDown = () => {
         <InputLabel id="label-id">Deck Name</InputLabel>
         <Select
             labelId="label-id"
-            value={deck}
+            value={deckValue}
             label="Deck Name"
             onChange={handleChange}
         >
